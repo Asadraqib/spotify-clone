@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spotify - Web Player: Music for everyone</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -13,13 +13,16 @@
         <div class="nav__left">
             <div class="logo"></div>
             <div class="home"></div>
-            <div class="search"></div>
+            <div class="search">
+                <input type="text" placeholder="What do you want to play?">
+                <div class="line"></div>
+            </div>
         </div>
         <div class="nav__right">
             <div class="navigate">
-                <span class="premium">Premium</span>
-                <span class="support">Support</span>
-                <span class="download">Download</span>
+                <button class="premium">Premium</button>
+                <button class="support">Support</button>
+                <button class="download">Download</button>
             </div>
             <div class="seperator"></div>
             <div class="user-actions">
