@@ -15,19 +15,33 @@ nav{
     align-items: center;
     gap: 20px;
     padding: 10px;
+    justify-content: space-between;
+}
+
+.nav__left{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nav__right{
+    display: flex;
+    align-items: center;
 }
 
 .logo svg{
     fill: white;
-    height: 40px;
+    width: 36px;
+    height: 36px;
+    margin: 0 18px 0 18px;
 }
 
 .home{
     background-color: #1f1f1f;
     padding: 8px;
     border-radius: 50%;
-    width: 47px;
-    height: 47px;
+    width: 50px;
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -36,13 +50,13 @@ nav{
 .home svg{
     width: 24px;
     height: 24px;
-    fill: rgb(225, 225, 225)
+    fill: rgb(225, 225, 225);
 }
 
 
 .search{
     width: 450px;
-    height: 47px;
+    height: 50px;
     background-color: #1f1f1f;
     border-radius: 30px;
     display: flex;
@@ -68,7 +82,7 @@ nav{
 
 .line{
     width: 1px;
-    height: 20px;
+    height: 25px;
     background-color: #a0a0a0;
     margin: 0 10px;
 }
@@ -78,9 +92,54 @@ nav{
     border: none;
     outline: none;
     color: #a0a0a0;
-    font-size: 14px;
+    font-size: 16px;
+    flex: 1;
+    min-width: 0;
 }
 
 .search input::placeholder{
     color: #a0a0a0;
+    font-size: 16px;
+    white-space: nowrap;
+}
+
+.nav--button{
+    padding: 5px;
+    background-color: transparent;
+    color: #a0a0a0;
+    border: none;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.seperator{
+    width: 2px;
+    height: 30px;
+    background-color: rgb(225, 225, 225);
+    margin: 0 15px;
+}
+
+.user-actions{
+    display: flex;
+    gap: 10px;
+}
+
+.app__install{
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    padding: 10px;
+}
+
+.app__install svg{
+    width: 16px;
+    fill: #a0a0a0;
+}
+
+.log-in--button{
+    border-radius: 30px;
+    width: 100px;
+    height: 50px;
+    font-size: 16px;
+    font-weight: 600;
 }
