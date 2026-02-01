@@ -6,6 +6,81 @@
 }
 
 body{
-    background: #121212;
+    background: #000000;
     color: #fff;
+}
+
+nav{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 10px;
+}
+
+.logo svg{
+    fill: white;
+    height: 40px;
+}
+
+.home{
+    background-color: #1f1f1f;
+    padding: 8px;
+    border-radius: 50%;
+    width: 47px;
+    height: 47px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.home svg{
+    width: 24px;
+    height: 24px;
+    fill: rgb(225, 225, 225)
+}
+
+
+.search{
+    width: 450px;
+    height: 47px;
+    background-color: #1f1f1f;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.search__left{
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+.search__right{
+    display: flex;
+    align-items: center;
+}
+
+.search svg{
+    width: 24px;
+    fill: #a0a0a0;
+    margin: 0 10px;
+}
+
+.line{
+    width: 1px;
+    height: 20px;
+    background-color: #a0a0a0;
+    margin: 0 10px;
+}
+
+.search input{
+    background-color: #1f1f1f;
+    border: none;
+    outline: none;
+    color: #a0a0a0;
+    font-size: 14px;
+}
+
+.search input::placeholder{
+    color: #a0a0a0;
 }
