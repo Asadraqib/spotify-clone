@@ -143,3 +143,23 @@ nav{
     font-size: 16px;
     font-weight: 600;
 }
+
+.hero{
+    display: flex;
+}
+
+.hero__left{
+    margin: 0 5px 0 7px;
+    background-color: #121212;
+    width: 21vw;
+    height: 77vh;
+    border-radius: 7px;
+}
+
+.hero__right{
+    border-radius: 7px;
+    margin: 0 7px 0 5px;
+    background-color: #121212;
+    width: 79vw;
+    height: 77vh;
+}
