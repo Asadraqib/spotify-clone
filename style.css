@@ -1,3 +1,8 @@
+:root{
+    --bg-color:#000000;
+    --main-color:#121212;
+}
+
 *{
     margin: 0;
     padding: 0;
@@ -6,27 +11,18 @@
 }
 
 body{
-    background: #000000;
+    background: var(--bg-color);
     color: #fff;
 }
 
 nav{
-    display: flex;
-    align-items: center;
     gap: 20px;
     padding: 10px;
     justify-content: space-between;
 }
 
 .nav__left{
-    display: flex;
-    align-items: center;
     gap: 10px;
-}
-
-.nav__right{
-    display: flex;
-    align-items: center;
 }
 
 .logo svg{
@@ -42,9 +38,6 @@ nav{
     border-radius: 50%;
     width: 50px;
     height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .home svg{
@@ -59,19 +52,15 @@ nav{
     height: 50px;
     background-color: #1f1f1f;
     border-radius: 30px;
-    display: flex;
-    align-items: center;
 }
 
 .search__left{
-    display: flex;
-    align-items: center;
     flex: 1;
+    padding: 8px;
 }
 
 .search__right{
-    display: flex;
-    align-items: center;
+    padding: 8px;
 }
 
 .search svg{
@@ -80,7 +69,7 @@ nav{
     margin: 0 10px;
 }
 
-.line{
+.search__divider{
     width: 1px;
     height: 25px;
     background-color: #a0a0a0;
@@ -120,12 +109,10 @@ nav{
 }
 
 .user-actions{
-    display: flex;
     gap: 10px;
 }
 
 .app__install{
-    display: flex;
     flex-direction: row;
     gap: 5px;
     padding: 10px;
@@ -144,13 +131,9 @@ nav{
     font-weight: 600;
 }
 
-.hero{
-    display: flex;
-}
-
 .hero__left{
     margin: 0 5px 0 7px;
-    background-color: #121212;
+    background-color: var(--main-color);
     width: 21vw;
     height: 77vh;
     border-radius: 7px;
@@ -159,7 +142,7 @@ nav{
 .hero__right{
     border-radius: 7px;
     margin: 0 7px 0 5px;
-    background-color: #121212;
+    background-color: var(--main-color);
     width: 79vw;
     height: 77vh;
 }
