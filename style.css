@@ -129,12 +129,13 @@ nav{
     height: 50px;
     font-size: 16px;
     font-weight: 600;
+    border: none;
 }
 
 .hero__left{
     margin: 0 5px 0 7px;
     background-color: var(--main-color);
-    width: 21vw;
+    width: 27vw;
     height: 77vh;
     border-radius: 7px;
 }
@@ -143,6 +144,65 @@ nav{
     border-radius: 7px;
     margin: 0 7px 0 5px;
     background-color: var(--main-color);
-    width: 79vw;
+    width: 73vw;
     height: 77vh;
+}
+
+.heading1{
+    justify-content: space-around;
+    padding: 15px;
+}
+
+.heading span{
+    font-weight: 600;
+}
+
+.create--button{
+    gap: 5px;
+    width: 90px;
+    background-color: #1f1f1f;
+    border: none;
+    border-radius: 30px;
+    height: 35px;
+}
+
+.svg__plus{
+    width: 15px;
+    fill: #a0a0a0;
+}
+
+.create--button span{
+    color: #fff;
+    font-weight: 600;
+}
+
+.heading2{
+    justify-content: left;
+    padding: 15px;
+}
+
+.categories--button{
+    gap: 5px;
+}
+
+.cat--btn{
+    justify-content: left;
+    height: 35px;
+    background-color: #1f1f1f;
+    border: none;
+    border-radius: 30px;
+    color: #fff;
+    font-weight: 600;
+}
+
+.all--button{
+    width: 45px;
+}
+
+.music--button{
+    width: 65px;
+}
+
+.podcasts--button{
+    width: 85px;
 }
