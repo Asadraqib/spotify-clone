@@ -149,12 +149,13 @@ nav{
 }
 
 .heading1{
-    justify-content: space-around;
-    padding: 15px;
+    justify-content: space-between;
+    padding: 20px;
 }
 
-.heading span{
-    font-weight: 600;
+.heading1 span{
+    font-size: 14px;
+    font-weight: 800;
 }
 
 .create--button{
@@ -176,6 +177,20 @@ nav{
     font-weight: 600;
 }
 
+.Left__hero--button{
+    padding: 0 0 0 20px;
+    gap: 10px;
+}
+
+.playlists--button{
+    width: 80px;
+}
+
+.artists--button{
+    width: 65px;
+}
+
+
 .heading2{
     justify-content: left;
     padding: 15px;
@@ -188,7 +203,7 @@ nav{
 .cat--btn{
     justify-content: left;
     height: 35px;
-    background-color: #1f1f1f;
+    background-color: #2a2a2a;
     border: none;
     border-radius: 30px;
     color: #fff;
