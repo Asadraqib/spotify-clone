@@ -190,6 +190,10 @@ nav{
     width: 65px;
 }
 
+.playlist__search--svg{
+    height: 20px;
+    width: 20px;
+}
 
 .heading2{
     justify-content: left;
