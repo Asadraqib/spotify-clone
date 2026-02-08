@@ -135,7 +135,7 @@ nav{
 .hero__left{
     margin: 0 5px 0 7px;
     background-color: var(--main-color);
-    width: 27vw;
+    width: 33vw;
     height: 77vh;
     border-radius: 7px;
 }
@@ -144,7 +144,7 @@ nav{
     border-radius: 7px;
     margin: 0 7px 0 5px;
     background-color: var(--main-color);
-    width: 73vw;
+    width: 67vw;
     height: 77vh;
 }
 
@@ -182,21 +182,41 @@ nav{
     gap: 10px;
 }
 
+.playlist__search{
+    justify-content: space-between;
+    padding: 15px 27px ;
+}
+
 .playlists--button{
     width: 80px;
 }
 
 .playlist__search--button{
-    background-color: #2a2a2a;
+    background-color: transparent;
+    border: none;
 }
 
 .playlist__search--svg{
-    height: 20px;
-    width: 20px;
+    height: 17px;
+    width: 17px;
+    fill: #a0a0a0;
 }
 
 .recent--button{
-    background-color: #2a2a2a;
+    gap: 5px;
+    background-color: transparent;
+    border: none;
+}
+
+.recent--button span{
+    color: #a0a0a0;
+    font-size: 14px;
+}
+
+.playlist__recent--svg{
+    height: 17px;
+    width: 17px;
+    fill: #a0a0a0;
 }
 
 .artists--button{
