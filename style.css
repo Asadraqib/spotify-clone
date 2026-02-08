@@ -186,13 +186,21 @@ nav{
     width: 80px;
 }
 
-.artists--button{
-    width: 65px;
+.playlist__search--button{
+    background-color: #2a2a2a;
 }
 
 .playlist__search--svg{
     height: 20px;
     width: 20px;
+}
+
+.recent--button{
+    background-color: #2a2a2a;
+}
+
+.artists--button{
+    width: 65px;
 }
 
 .heading2{
