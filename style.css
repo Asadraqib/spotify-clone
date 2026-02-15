@@ -292,6 +292,10 @@ nav{
     width: 85px;
 }
 
+.made_for_you__section{
+    padding: 5px;
+}
+
 .made_for_you__section span{
     color:#a0a0a0;
     font-size: 12px;
