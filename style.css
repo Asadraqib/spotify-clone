@@ -238,6 +238,12 @@ nav{
     border-radius: 5px;
 }
 
+.playlist{
+    height: 350px;
+    overflow: auto;
+    
+}
+
 .playlist1__title p{
     font-size: 16px;
     font-weight: 500;
@@ -304,4 +310,25 @@ nav{
 .made_for_you__section p{
     font-size: 24px;
     font-weight: 600;
+}
+
+.playbar{
+    height: 12vh;
+}
+
+.seekbar{
+    width: 35vw;
+    height: 5px;
+    background-color: #333232;
+    border-radius: 5px;
+}
+
+.circle{
+    width: 10px;
+    height: 10px;
+    background-color: #fff;
+    border-radius: 50%;
+    position: relative;
+    transform: translate(-30%, -30%);
+    transition: left 0.5s;
 }
