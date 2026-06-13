@@ -86,11 +86,65 @@
                         <p>Asad Raqib</p>
                     </div>
                 </div>
+                <div class="albums-section">
+
+                    <button class="scroll-btn left-btn">❮</button>
+                
+                    <div class="album__container">
+                
+                        <div class="album">
+                            <img src="http://127.0.0.1:3000/songs/albums/cover.jpg" alt="">
+                            <p>Arijit Singh</p>
+                            <span>Artist</span>
+                        </div>
+                
+                        <div class="album">
+                            <img src="http://127.0.0.1:3000/songs/albums/cover.jpg" alt="">
+                            <p>Atif Aslam</p>
+                            <span>Artist</span>
+                        </div>
+                
+                        <div class="album">
+                            <img src="http://127.0.0.1:3000/songs/albums/cover.jpg" alt="">
+                            <p>KK</p>
+                            <span>Artist</span>
+                        </div>
+                        
+                    </div>
+                
+                    <button class="scroll-btn right-btn">❯</button>
+                
+                </div>
             </div>      
         </div>
-        <div class="playbar flex--center">
-            <div class="seekbar">
-                <div class="circle"></div>
+        <div class="playbar">
+            <div class="seek__nav">
+                <!-- Previous -->
+                <svg class="prev" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white">
+                    <rect x="5" y="5" width="2" height="14"/>
+                    <polygon points="18,5 8,12 18,19"/>
+                </svg>
+        
+                <!-- Play -->
+                <svg class="play" xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="11" fill="#1DB954"/>
+                    <polygon points="10,8 17,12 10,16" fill="black"/>
+                </svg>
+        
+                <!-- Next -->
+                <svg class="next" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white">
+                    <rect x="17" y="5" width="2" height="14"/>
+                    <polygon points="6,5 16,12 6,19"/>
+                </svg>
+            </div>
+            <div class="seekbar-container">
+                <div class="songtime">00:00</div>
+            
+                <div class="seekbar">
+                    <div class="circle"></div>
+                </div>
+            
+                <div class="songduration">00:00</div>
             </div>
         </div>
     </main>
