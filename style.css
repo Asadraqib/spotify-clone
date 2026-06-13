@@ -314,21 +314,132 @@ nav{
 
 .playbar{
     height: 12vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.seek__nav{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    cursor: pointer;
+}
+
+.seekbar-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    width: 100%;
+}
+
+.songtime,
+.songduration{
+    color: white;
+    font-size: 14px;
+    min-width: 45px;
+    text-align: center;
 }
 
 .seekbar{
-    width: 35vw;
+    flex: 1;
+    max-width: 500px;
     height: 5px;
     background-color: #333232;
     border-radius: 5px;
+    position: relative;
 }
 
 .circle{
-    width: 10px;
-    height: 10px;
-    background-color: #fff;
+    width: 12px;
+    height: 12px;
+    background-color: white;
     border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    transform: translate(-50%, -50%);
+}
+
+.seekbar{
+    cursor: pointer;
     position: relative;
-    transform: translate(-30%, -30%);
-    transition: left 0.5s;
+}
+
+.circle{
+    cursor: pointer;
+}
+
+.albums-section{
+    position: relative;
+    width: 100%;
+}
+
+.album__container{
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    padding: 10px 40px;
+}
+
+.album__container::-webkit-scrollbar{
+    display: none;
+}
+
+.album{
+    min-width: 180px;
+    padding: 10px;
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+
+.album:hover{
+    background: #2a2a2a;
+    cursor: pointer;
+}
+
+.album img{
+    width: 170px;
+    height: 170px;
+    border-radius: 50%; /* Spotify artist style */
+    object-fit: cover;
+}
+
+.album p{
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.album span{
+    color: #a0a0a0;
+    font-size: 14px;
+}
+
+.scroll-btn{
+    position: absolute;
+    top: 40%;
+    transform: translateY(-50%);
+    width: 35px;
+    height: 35px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(0,0,0,.8);
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.left-btn{
+    left: 0;
+}
+
+.right-btn{
+    right: 0;
 }
