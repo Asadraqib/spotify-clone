@@ -259,7 +259,9 @@ nav{
 .second__type{
     width: 50px;
     height: 50px;
-    border-radius: 50%;
+    border: none;
+    border-radius: 10px;
+    background-color: black;
 }
 
 .playlist1:hover{
@@ -427,15 +429,31 @@ nav{
     object-fit: cover;
 }
 
-.album p, .music__card p{
+.album, .music__card, .podcast__card{
+    width: 180px;
+    min-width: 180px;
+    padding: 10px;
+    border-radius: 8px;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.album p, .music__card p, .podcast__card p{
     margin-top: 10px;
     font-size: 16px;
     font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.album span, .music__card span{
+.album span, .music__card span, .podcast__card span{
     color: #a0a0a0;
     font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
 }
 
 .scroll-btn{
@@ -477,3 +495,79 @@ nav{
     border-radius: 8px;
 }
 
+.podcast__container{
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    padding: 10px 40px;
+}
+
+.podcast__card img{
+    width: 166px;
+    height: 166px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.now-playing-cover {
+    width: 52px;
+    height: 52px;
+    border-radius: 6px;
+    object-fit: cover;
+    margin-right: 12px;
+    flex-shrink: 0;
+}
+
+.song-info {
+    display: flex;
+    align-items: center;
+    min-width: 200px;
+    gap: 10px;
+}
+
+.current-song {
+    color: white;
+    font-size: 14px;
+}
+
+.playlist-svg-box {
+    width: 45px;
+    height: 45px;
+    border-radius: 4px;
+    background-color: #282828;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-right: 10px;
+}
+
+.playlist1 {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    cursor: pointer;
+    gap: 10px;
+}
+
+.playlist1__title {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.playlist1__title p {
+    margin: 0;
+    padding: 0;
+    color: white;
+    font-size: 14px;
+}
+
+.playlist1__title span {
+    margin: 0;
+    padding: 0;
+    color: #a7a7a7;
+    font-size: 12px;
+}
