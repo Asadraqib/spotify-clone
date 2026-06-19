@@ -2,12 +2,36 @@ console.log("Let's write JavaScript");
 
 let currentSong;
 let songs = [];
+let songsMeta = {};
 let currentIndex = 0;
 let currentFolder = "";
 
 const play = document.querySelector(".play");
 const prev = document.querySelector(".prev");
 const next = document.querySelector(".next");
+const volumeRange = document.querySelector(".volume-range");
+const volumeIcon = document.querySelector(".volume-icon");
+let currentVolume = volumeRange ? Number(volumeRange.value) / 100 : 0.5;
+let isMuted = false;
+let volumeBeforeMute = currentVolume;
+
+const VOLUME_ICON = `
+    <polygon points="5,9 9,9 14,5 14,19 9,15 5,15"/>
+    <path d="M17 8 C18.5 9.5 18.5 14.5 17 16"
+          stroke="white" stroke-width="2"
+          fill="none" stroke-linecap="round"/>
+    <path d="M19.5 5.5 C22.5 8.5 22.5 15.5 19.5 18.5"
+          stroke="white" stroke-width="2"
+          fill="none" stroke-linecap="round"/>
+`;
+
+const MUTE_ICON = `
+    <polygon points="5,9 9,9 14,5 14,19 9,15 5,15"/>
+    <line x1="17" y1="9" x2="21" y2="15"
+          stroke="white" stroke-width="2" stroke-linecap="round"/>
+    <line x1="21" y1="9" x2="17" y2="15"
+          stroke="white" stroke-width="2" stroke-linecap="round"/>
+`;
 
 async function getsongs(folder) {
     let audioFiles = await fetch(`http://127.0.0.1:3000/songs/${folder}`);
@@ -57,15 +81,24 @@ function playMusic(track, meta = null) {
         currentSong.pause();
     }
 
+    if (!meta && songsMeta[track]) {
+        meta = songsMeta[track];
+    }
+
     currentSong = new Audio(track);
+    currentSong.volume = isMuted ? 0 : currentVolume;
     currentSong.play();
 
     let songName = decodeURIComponent(track).split(/[/\\]/).pop().replace(".mp3", "");
 
-    // Use passed-in metadata if available, otherwise fall back to old behavior
     let displayTitle = meta?.title || songName;
-    let displayArtist = meta?.artist || "Artist";
-    let coverUrl = meta?.coverUrl || `http://127.0.0.1:3000/songs/${currentFolder}/cover.jpg`;
+    let coverUrl = meta?.coverUrl
+        || (meta?.cover && currentFolder
+            ? `http://127.0.0.1:3000/${currentFolder}/${meta.cover}`
+            : null)
+        || (currentFolder.startsWith("songs2/")
+            ? `http://127.0.0.1:3000/${currentFolder}/cover.jpg`
+            : `http://127.0.0.1:3000/songs/${currentFolder}/cover.jpg`);
 
     document.querySelector(".song-info").innerHTML = `
         <img src="${coverUrl}" 
@@ -123,10 +156,18 @@ async function displayAlbums() {
                 <span>${data.description}</span>
             `;
 
-            // ✅ albumDiv listener INSIDE displayAlbums, saves currentFolder
             albumDiv.addEventListener("click", async () => {
                 currentFolder = folder;
                 songs = await getsongs(folder);
+                songsMeta = {};
+                const albumCover = `http://127.0.0.1:3000/songs/${folder}/cover.jpg`;
+                songs.forEach(songUrl => {
+                    songsMeta[songUrl] = { 
+                        coverUrl: albumCover,
+                        title: decodeURIComponent(songUrl).split(/[/\\]/).pop().replace(".mp3", ""),
+                        artist: data.title
+                    };
+                });
                 displayPlaylist();
             });
 
@@ -141,23 +182,25 @@ function displayPlaylist() {
 
     for (const song of songs) {
         let songName = decodeURIComponent(song).split(/[/\\]/).pop().replace(".mp3", "");
+        
+        let meta = songsMeta[song] || {};
+        let title = meta.title || songName;
+        let artist = meta.artist || "Unknown Artist";
+        let coverUrl = meta.coverUrl || "https://via.placeholder.com/45?text=Music";
 
         let item = document.createElement("div");
         item.classList.add("playlist1");
+        
         item.innerHTML = `
-    <div class="playlist-svg-box">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#1DB954">
-            <path d="M12 3v10.55A4 4 0 1 0 14 17V7h4V3z"/>
-        </svg>
-    </div>
-    <div class="playlist1__title">
-        <p>${songName}</p>
-        <span>Artist</span>
-    </div>
-`;
+            <img src="${coverUrl}" alt="${title}" class="playlist-cover" onerror="this.src='https://via.placeholder.com/45?text=Music'">
+            <div class="playlist1__title">
+                <p>${title}</p>
+                <span>${artist}</span>
+            </div>
+        `;
 
         item.addEventListener("click", () => {
-            playMusic(song);
+            playMusic(song, songsMeta[song]);
         });
 
         songlist.appendChild(item);
@@ -171,7 +214,6 @@ async function displayCategoryMusic(category, containerId) {
     let folderPath = `songs2/${category}`;
 
     try {
-        // 1. Fetch the directory listing to find mp3 files
         let response = await fetch(`http://127.0.0.1:3000/${folderPath}/`);
         let html = await response.text();
 
@@ -193,13 +235,11 @@ async function displayCategoryMusic(category, containerId) {
             return;
         }
 
-        // 2. Fetch the SINGLE category JSON (e.g. info.json) ONCE
         let metaMap = {};
         try {
             let metaRes = await fetch(`http://127.0.0.1:3000/${folderPath}/info.json`);
             if (metaRes.ok) {
                 let data = await metaRes.json();
-                // Build a lookup: filename -> { title, artist, cover }
                 if (Array.isArray(data.tracks)) {
                     data.tracks.forEach(t => {
                         metaMap[t.file] = t;
@@ -210,11 +250,8 @@ async function displayCategoryMusic(category, containerId) {
             console.warn(`No info.json for ${category}`, e);
         }
 
-        // 3. Build cards using the lookup
         for (const trackUrl of trackFiles) {
-            let fileName = decodeURIComponent(trackUrl)
-                .split(/[/\\]/)
-                .pop(); // keep ".mp3" so it matches metaMap keys like "track1.mp3"
+            let fileName = decodeURIComponent(trackUrl).split(/[/\\]/).pop(); 
 
             let meta = metaMap[fileName] || {
                 title: fileName.replace(".mp3", ""),
@@ -222,10 +259,12 @@ async function displayCategoryMusic(category, containerId) {
                 cover: "cover.jpg"
             };
 
+            const coverUrl = `http://127.0.0.1:3000/${folderPath}/${meta.cover}`;
+
             let card = document.createElement("div");
             card.classList.add("music__card");
             card.innerHTML = `
-                <img src="http://127.0.0.1:3000/${folderPath}/${meta.cover}" alt="${meta.title}">
+                <img src="${coverUrl}" alt="${meta.title}">
                 <p>${meta.title}</p>
                 <span>${meta.artist}</span>
             `;
@@ -233,7 +272,17 @@ async function displayCategoryMusic(category, containerId) {
             card.addEventListener("click", () => {
                 songs = trackFiles;
                 currentFolder = folderPath;
-                playMusic(trackUrl);
+                songsMeta = {};
+                trackFiles.forEach(url => {
+                    const name = decodeURIComponent(url).split(/[/\\]/).pop();
+                    const trackMeta = metaMap[name] || meta;
+                    songsMeta[url] = {
+                        title: trackMeta.title,
+                        artist: trackMeta.artist,
+                        coverUrl: `http://127.0.0.1:3000/${folderPath}/${trackMeta.cover}`
+                    };
+                });
+                playMusic(trackUrl, songsMeta[trackUrl]);
                 displayPlaylist();
             });
 
@@ -252,10 +301,108 @@ async function loadAllCategories() {
     await displayCategoryMusic("podcast", "podcast");
 }
 
+function initScrollRows() {
+    document.querySelectorAll(".scroll-row").forEach(row => {
+        const container = row.querySelector(
+            ".album__container, .music__container, .podcast__container"
+        );
+        const leftBtn = row.querySelector(".left-btn");
+        const rightBtn = row.querySelector(".right-btn");
+
+        if (!container || !leftBtn || !rightBtn) return;
+
+        const updateButtons = () => {
+            const maxScroll = container.scrollWidth - container.clientWidth;
+            const hasOverflow = maxScroll > 1;
+
+            leftBtn.classList.toggle("is-hidden", container.scrollLeft <= 0);
+            rightBtn.classList.toggle(
+                "is-hidden",
+                !hasOverflow || container.scrollLeft >= maxScroll - 1
+            );
+        };
+
+        leftBtn.addEventListener("click", () => {
+            container.scrollBy({
+                left: -container.clientWidth * 0.8,
+                behavior: "smooth"
+            });
+        });
+
+        rightBtn.addEventListener("click", () => {
+            container.scrollBy({
+                left: container.clientWidth * 0.8,
+                behavior: "smooth"
+            });
+        });
+
+        container.addEventListener("scroll", updateButtons, { passive: true });
+        window.addEventListener("resize", updateButtons);
+        new ResizeObserver(updateButtons).observe(container);
+
+        updateButtons();
+    });
+}
+
+const collapseBtn = document.getElementById('collapse-btn');
+if(collapseBtn) {
+    collapseBtn.addEventListener('click', () => {
+        document.querySelector('.hero__left').classList.toggle('collapsed');
+    });
+}
+
+function initCategoryNavigation() {
+    const btnAll = document.querySelector('.all--button');
+    const btnMusic = document.querySelector('.music--button');
+    const btnPodcast = document.querySelector('.podcasts--button');
+
+    const sectionAll = document.getElementById('section-all');
+    const sectionMusic = document.getElementById('section-music');
+    const sectionPodcast = document.getElementById('section-podcast');
+
+    if (btnAll && sectionAll) {
+        btnAll.addEventListener('click', () => {
+            sectionAll.scrollIntoView({ behavior: 'smooth' });
+        });
+    }
+
+    if (btnMusic && sectionMusic) {
+        btnMusic.addEventListener('click', () => {
+            sectionMusic.scrollIntoView({ behavior: 'smooth' });
+        });
+    }
+
+    if (btnPodcast && sectionPodcast) {
+        btnPodcast.addEventListener('click', () => {
+            sectionPodcast.scrollIntoView({ behavior: 'smooth' });
+        });
+    }
+}
+
+// --- Sticky Header Scroll Color Logic ---
+function initStickyHeader() {
+    const heroRight = document.getElementById('hero-right-container');
+    const stickyNav = document.querySelector('.sticky-nav');
+    
+    if(heroRight && stickyNav) {
+        heroRight.addEventListener('scroll', () => {
+            // Apply blue background to the buttons header as soon as it begins scrolling
+            if (heroRight.scrollTop > 20) {
+                stickyNav.classList.add('scrolled');
+            } else {
+                stickyNav.classList.remove('scrolled');
+            }
+        });
+    }
+}
+
 async function main() {
     displayAlbums();
     displayPlaylist();
-    loadAllCategories();
+    await loadAllCategories();
+    initScrollRows();
+    initCategoryNavigation();
+    initStickyHeader(); 
 }
 
 play.addEventListener("click", () => {
@@ -322,5 +469,60 @@ document.addEventListener("mouseup", (e) => {
     }
     isDragging = false;
 });
+
+function updateVolumeIcon() {
+    if (!volumeIcon) return;
+    volumeIcon.innerHTML = isMuted ? MUTE_ICON : VOLUME_ICON;
+}
+
+function applyVolumeToAudio() {
+    if (currentSong) {
+        currentSong.volume = isMuted ? 0 : currentVolume;
+    }
+}
+
+function setVolume(value) {
+    currentVolume = Math.max(0, Math.min(1, value));
+
+    if (currentVolume === 0) {
+        isMuted = true;
+    } else {
+        isMuted = false;
+        volumeBeforeMute = currentVolume;
+    }
+
+    if (volumeRange) {
+        volumeRange.value = Math.round(currentVolume * 100);
+    }
+
+    updateVolumeIcon();
+    applyVolumeToAudio();
+}
+
+function toggleMute() {
+    if (isMuted) {
+        isMuted = false;
+        currentVolume = volumeBeforeMute > 0 ? volumeBeforeMute : 0.5;
+        if (volumeRange) {
+            volumeRange.value = Math.round(currentVolume * 100);
+        }
+    } else {
+        volumeBeforeMute = currentVolume;
+        isMuted = true;
+    }
+
+    updateVolumeIcon();
+    applyVolumeToAudio();
+}
+
+if (volumeIcon) {
+    volumeIcon.addEventListener("click", toggleMute);
+}
+
+if (volumeRange) {
+    volumeRange.addEventListener("input", () => {
+        setVolume(Number(volumeRange.value) / 100);
+    });
+}
 
 main();
